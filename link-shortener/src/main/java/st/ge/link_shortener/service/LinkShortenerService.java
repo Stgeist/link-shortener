@@ -2,13 +2,14 @@ package st.ge.link_shortener.service;
 
 import java.security.SecureRandom;
 import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
 @Service
 public class LinkShortenerService {
 
-    private HashMap<String, String> urlStorage = new HashMap<>();
+    private final Map<String, String> urlStorage = new HashMap<>();
     
     private static final String chars =
         "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -17,24 +18,30 @@ public class LinkShortenerService {
 
     private static final SecureRandom random = new SecureRandom();
     
-    public String generateShortCode() {
-        
+    private String generateShortCode() {
+
         StringBuilder builder = new StringBuilder();
 
-        for(int i = 0; i >= shortCodeLength; i++) {
+        for(int i = 0; i < shortCodeLength; i++) {
             builder.append(chars.charAt(random.nextInt(chars.length())));
         }
-
+        
         return builder.toString();
     }
 
     public String shortenUrl(String baseUrl) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'shortenUrl'");
+
+        String generatedCode = generateShortCode();
+
+        urlStorage.put(generatedCode, baseUrl);
+
+        return generatedCode;
     }
 
     public String getOriginalUrl(String shortCode) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getOriginalUrl'");
+
+        String url = urlStorage.get(shortCode);
+        
+        return url;
     }
 }

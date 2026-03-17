@@ -1,5 +1,10 @@
 package st.ge.link_shortener.controller;
 
+import java.net.URI;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,7 +30,19 @@ public class LinkShortenerController {
     }
 
     @GetMapping("/{shortCode}")
-    public String getShortenedUrl(@PathVariable String shortCode) {
-        return linkShortenerService.getOriginalUrl(shortCode);
+    public ResponseEntity<Void> redirectToBaseUrl(@PathVariable String shortCode) {
+        
+        String baseUrl = linkShortenerService.getOriginalUrl(shortCode);
+
+        if (baseUrl == null) {
+            return ResponseEntity
+            .status(HttpStatus.NOT_FOUND)
+            .build();
+        }
+
+        return ResponseEntity
+        .status(HttpStatus.FOUND)
+        .location(URI.create(baseUrl))
+        .build();
     }
 }
