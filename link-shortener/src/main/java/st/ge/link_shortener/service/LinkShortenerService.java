@@ -31,7 +31,15 @@ public class LinkShortenerService {
 
     public String shortenUrl(String baseUrl) {
 
-        String generatedCode = generateShortCode();
+        String generatedCode;
+
+        if (!baseUrl.startsWith("http://") && !baseUrl.startsWith("https://")) {
+            throw new IllegalArgumentException("Invalid URL format");
+        }
+
+        do {
+            generatedCode = generateShortCode();
+        } while (urlStorage.containsKey(generatedCode));
 
         urlStorage.put(generatedCode, baseUrl);
 
@@ -41,7 +49,7 @@ public class LinkShortenerService {
     public String getOriginalUrl(String shortCode) {
 
         String url = urlStorage.get(shortCode);
-        
+
         return url;
     }
 }
