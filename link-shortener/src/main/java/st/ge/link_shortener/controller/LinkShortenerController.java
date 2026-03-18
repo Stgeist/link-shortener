@@ -29,14 +29,14 @@ public class LinkShortenerController {
     }
 
     @GetMapping("/{shortCode}")
-    public ResponseEntity<Void> redirectToBaseUrl(@PathVariable String shortCode) {
+    public ResponseEntity<String> redirectToBaseUrl(@PathVariable String shortCode) {
         
         String baseUrl = linkShortenerService.getOriginalUrl(shortCode);
 
         if (baseUrl == null) {
             return ResponseEntity
             .status(HttpStatus.NOT_FOUND)
-            .build();
+            .body("Short URL not found");
         }
 
         return ResponseEntity
