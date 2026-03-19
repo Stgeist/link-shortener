@@ -2,6 +2,7 @@ package st.ge.link_shortener.controller;
 
 import java.net.URI;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +18,7 @@ import st.ge.link_shortener.service.LinkShortenerService;
 @RequestMapping("/api")
 public class LinkShortenerController {
 
+    @Autowired
     private final LinkShortenerService linkShortenerService;
 
     public LinkShortenerController(LinkShortenerService linkShortenerService) {
