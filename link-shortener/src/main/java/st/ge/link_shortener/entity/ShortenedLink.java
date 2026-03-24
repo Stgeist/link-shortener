@@ -15,13 +15,13 @@ public class ShortenedLink {
 
     private String baseUrl;
 
-    private int clickCount;  
+    private long clickCount;  
     
     public ShortenedLink() {};
 
     public ShortenedLink(String shortCode, String baseUrl) {
         this.shortCode = shortCode;
         this.baseUrl = baseUrl;
-        this.clickCount = 0;
+        this.clickCount = 0L;
     };
 }
