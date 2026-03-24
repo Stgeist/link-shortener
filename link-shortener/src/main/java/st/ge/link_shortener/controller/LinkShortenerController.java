@@ -33,17 +33,18 @@ public class LinkShortenerController {
     @GetMapping("/{shortCode}")
     public ResponseEntity<String> redirectToBaseUrl(@PathVariable String shortCode) {
         
+    try {
         String baseUrl = linkShortenerService.getOriginalUrl(shortCode);
 
-        if (baseUrl == null) {
-            return ResponseEntity
-            .status(HttpStatus.NOT_FOUND)
-            .body("Short URL not found");
-        }
-
         return ResponseEntity
-        .status(HttpStatus.FOUND)
-        .location(URI.create(baseUrl))
-        .build();
+            .status(HttpStatus.FOUND)
+            .location(URI.create(baseUrl))
+            .build();
+
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body("Short URL not found");
+        }
     }
 }
